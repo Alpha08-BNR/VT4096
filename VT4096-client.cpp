@@ -402,7 +402,7 @@ static string httpCall(const string& host, const string& port, const string& met
     fd = -1;
   }
   freeaddrinfo(res);
-  if (fd < 0) throw runtime_error("Không kết nối được tới server");
+  if (fd < 0) throw runtime_error("Không kết nối được server");
   timeval tv{30, 0};
   setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof tv);
 
@@ -412,7 +412,7 @@ static string httpCall(const string& host, const string& port, const string& met
   size_t o = 0;
   while (o < req.size()) {
     ssize_t n = send(fd, req.data() + o, req.size() - o, MSG_NOSIGNAL);
-    if (n <= 0) { close(fd); throw runtime_error("Gửi dữ liệu thất bại"); }
+    if (n <= 0) { close(fd); throw runtime_error("Gửi data thất bại"); }
     o += (size_t)n;
   }
   string raw;
@@ -449,7 +449,7 @@ int main(int argc, char** argv) {
   try {
     string message;
     for (int i = 1; i < argc; i++) { if (i > 1) message += ' '; message += argv[i]; }
-    if (message.empty()) message = "Xin chào từ client C++ vector 4096 trục!";
+    if (message.empty()) message = "Xin chào từ client C++ vector 4096";
 
     string server = getenv("SERVER") ? getenv("SERVER") : "http://localhost:3000";
     if (server.rfind("http://", 0) == 0) server = server.substr(7);
